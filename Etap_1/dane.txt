@@ -1,0 +1,24 @@
+Woźniak Mikołaj 1ID22A    (1ID22B?)
+mxd1232@gmail.com 
+
+Temat: nr24: 
+Inżynieria odwrotna
+
+Technologie:
+
+C# 
+(System.IO - obsługa plików i/lub użycie reflekcji)
+
+
+UML
+(przeniesienie do kodu typu plantUML)
+
+Harmonogram:
+Marzec - część teoretyczna 
+Kwiecień - konwersja kodu do np objektu lub do kodu UML (diagram klas, dziedziczenie, asocjacje itp.)
+Maj - konwersja objektu do kodu UML i/lub oddanie projektu
+
+Praca jednoosobowa.
+
+Temat PSZ - rysowanie fraktali
+temat pracy inż - Projekt i implementacja aplikacji do gry w Warcaby.
