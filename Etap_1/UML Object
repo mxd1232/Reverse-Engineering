@@ -1,0 +1,52 @@
+Idea:
+Object storing infor about connections attributes etc:
+
+Pseudocode:
+
+ClassUML
+{
+Name  ClassNameUML;
+List<Attribute> Attributes;
+List<Method> Methods;
+//List<Connection> Connection;		//(outside of ClassUML);
+}
+***************************************************
+Name 
+{
+String ClassName;
+Enum ClassType;	            	 	  //- (interface/class/ abstract class)//
+}
+***************************************************
+Attribute
+{
+String AttributeName;
+Enum eVisibility;				          //(private, public,protected, *package*)
+Enum AttributeType;		 	    	    //(string, int, object,…)
+String startingValue;
+Boolean isStatic;
+}
+***************************************************
+
+
+
+
+Method
+{
+String MethodName;
+Enum Visibility;
+List<Enum > parameters; 			    //(int, string…)
+Enum ReturnType;				          //(int, string…)
+}
+
+*************************************
+Connection
+{
+ClassUML ConnectingClass;
+ClassUML ConnectedClass;			
+Enum TypeOfConnection;			      //(association etc.)
+Enum NumberOfTimesConnecting; 		//(1,1..*,*, itp.); !!!implement?
+Enum NumberOfTimesConnected;
+}
+
+
+
