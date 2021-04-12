@@ -22,3 +22,7 @@ Praca jednoosobowa.
 
 Temat PSZ - rysowanie fraktali
 temat pracy inż - Projekt i implementacja aplikacji do gry w Warcaby.
+
+***************
+Jak zainstalować/przenieść program do sprawdzanego kodu?
+Opisać refleksje.
