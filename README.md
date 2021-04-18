@@ -15,7 +15,7 @@ Application creating an UML class diagram out of c# source code.
 
 
 
-**********************TEORIA***************************
+#**********************TEORIA***************************#
 
 
 Diagram klas 
