@@ -15,27 +15,27 @@ Application creating an UML class diagram out of c# source code.
 
 
 
-**********************TEORIA***************************#
+******************** **TEORIA ***************************#
 
 
-*Diagram klas 
+**Diagram klas 
 – statyczny diagram strukturalny w UML, przedstawiający strukturę systemu w modelach obiektowych przez ilustrację struktury klas i zależności między nimi.
 
 Diagram klas pokazuje określony fragment struktury systemu. Diagramów klas używa się do modelowania statycznych aspektów perspektywy projektowej. Wiąże się z tym silnie modelowanie słownictwa systemu, kooperacji lub schematów. Diagramy klas pozwalają na sformalizowanie specyfikacji danych i metod. Mogą także pełnić rolę graficznego środka pokazującego szczegóły implementacji klas.
 
-*Klasy
+**Klasy
 Klasa w modelu UML programu obiektowego jest reprezentowana przez prostokąt z umieszczoną wewnątrz nazwą klasy. Oddzielona część prostokąta pod nazwą klasy może zawierać atrybuty klasy, czyli metody, właściwości lub pola. Każdy atrybut pokazywany jest przynajmniej jako nazwa, opcjonalnie także z typem, wartością i innymi cechami.
 
 Metody klasy mogą znajdować się w osobnej części prostokąta. Każda metoda jest pokazywana przynajmniej jako nazwa, a dodatkowo także ze swoimi parametrami i zwracanym typem.
 
-*Atrybuty (zmienne i właściwości) oraz metody mogą mieć też oznaczoną widoczność (zakres znaczenia ich nazw) jak następuje:
+**Atrybuty (zmienne i właściwości) oraz metody mogą mieć też oznaczoną widoczność (zakres znaczenia ich nazw) jak następuje:
 
 "+" dla public – publiczny, dostęp globalny
 "#" dla protected – chroniony, dostęp dla pochodnych klasy (wynikających z generalizacji)
 "−" dla private – prywatny, dostępny tylko w obrębie klasy (przy atrybucie statycznym) lub obiektu (przy atrybucie zwykłym)
 "~" dla package – pakiet, dostępny w obrębie danego pakietu, projektu.
 
-*Związki (powiązania)
+**Związki (powiązania)
 
 Oznaczenia związków klas w UML
 Zależność
@@ -60,7 +60,7 @@ Kompozycja, jest silniejszą formą agregacji. W związku kompozycji, części n
 
 
 
-#Refleksja
+**Refleksja
 - służy to uzyskania informacji o typie w trakcie wykonywania programu. Klasy, które mają dostęp do metadanych działającego programu są zdefiniowane w przestrzeni nazw System.Reflection.
 Przestrzeń ta zawiera klasy, które pozwalają na uzyskanie informacji o aplikacji oraz pozwalają na dynamiczne dodawanie typów, wartości i obiektów do aplikacji.
 Możliwości refleksji:
