@@ -9,8 +9,6 @@ namespace ReflectionTest.Models
     public class AccesibilityUML
     {
         public Accesibilities Accesibility { get; set; }
-        public bool isStatic { get; set; }
-
-
+        public Modifiers Modifier { get; set; }
     }
 }

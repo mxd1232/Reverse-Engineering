@@ -23,29 +23,9 @@ namespace ReflectionTest.Models
         ProtectedInternal = 0x0008,
         Public = 0x0010,
     }
-    public enum DataTypes 
-    { 
-        Byte,
-        SByte,
-        SHort,
-        UShort,
-        Int,
-        UInt,
-        Long,
-        ULong,
-        Float,
-        Double,
-        Decimal,
-        Char,
-        Bool,
-        Object,
-        String,
-        DateTime,
-        _Other
-    }
-
-
+   
     //NOT TO IMPLEMENT RIGHT NOW
+    [Flags]
     public enum Modifiers
     {
         Static,
