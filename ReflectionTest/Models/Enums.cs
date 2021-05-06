@@ -13,14 +13,15 @@ namespace ReflectionTest.Models
         Interface,
         Enum
     }
+    [Flags]
     public enum Accesibilities 
-    { 
-        Public,
-        Private,
-        Protected,
-        Internal,
-        ProtectedInternal,
-        PrivateProtected 
+    {
+        None = 0x0000,
+        Private = 0x0001,
+        Protected = 0x0002,
+        Internal = 0x0004,
+        ProtectedInternal = 0x0008,
+        Public = 0x0010,
     }
     public enum DataTypes 
     { 

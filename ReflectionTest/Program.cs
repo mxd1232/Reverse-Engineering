@@ -118,6 +118,17 @@ namespace ReflectionTest
 
             codeToObjectConverter.CreateClasses(typelist);
             // codeToObjectConverter.CreateClasses(GetTypesInNamespace(assembly, "ReflectionTest"));
+
+            ObjectToPlantUMLConverter PlantUML = new ObjectToPlantUMLConverter();
+            PlantUML.CodeToObjectConverter = codeToObjectConverter;
+
+            Console.WriteLine(PlantUML.CreateFilePlantUML());
+
+
+
+
+            Console.ReadLine();
+           
         }
 
         static void MainTest(Assembly assembly)

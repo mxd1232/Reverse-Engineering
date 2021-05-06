@@ -11,6 +11,7 @@
 
         public string StartingValue { get; set; }
 
+        public AccesibilityUML FullAccesibility { get; set; }
     }
    
 

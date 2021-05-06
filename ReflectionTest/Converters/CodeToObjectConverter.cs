@@ -60,6 +60,7 @@ namespace ReflectionTest.Converters
             };
             return classNameUML;
         }
+
         private ClassTypes GetClassType(Type type)
         {
             ClassTypes classType;
@@ -103,7 +104,7 @@ namespace ReflectionTest.Converters
             {
                 FieldName =fieldInfo.Name,
                 //TODO - ACCESIBILITY
-                FieldType = fieldInfo.FieldType.ToString()
+                FieldType = fieldInfo.FieldType.Name
               //  StartingValue = fieldInfo.GetValue(null).ToString()
               //TODO - starting value?
             };
@@ -118,7 +119,14 @@ namespace ReflectionTest.Converters
             foreach (var methodInfo in type.GetMethods())
             {
 
-                if (methodInfo.Name == "Equals" || methodInfo.Name == "GetHashCode" || methodInfo.Name == "GetType" || methodInfo.Name == "ToString")
+                if (methodInfo.Name == "Equals" || 
+                    methodInfo.Name == "GetHashCode" || 
+                    methodInfo.Name == "GetType" || 
+                    methodInfo.Name == "ToString"||
+                    methodInfo.Name == "CompareTo" ||
+                    methodInfo.Name == "HasFlag" ||
+                    methodInfo.Name == "GetTypeCode" 
+                    )
                 {
                     continue;
                 }
@@ -134,7 +142,7 @@ namespace ReflectionTest.Converters
             MethodUML method = new MethodUML()
             {MethodName = methodInfo.Name,
             //TODO Visibility
-            ReturnType = methodInfo.ReturnType.ToString(),
+            ReturnType = methodInfo.ReturnType.Name,
             
             };
 
@@ -142,7 +150,15 @@ namespace ReflectionTest.Converters
             {
                 foreach (var argument in methodInfo.GetParameters())
                 {
-                    method.Arguments.Add(argument.ParameterType.ToString());
+                    method.Parameters.Add(
+                        new ParameterUML()
+                        {
+                            ParameterType = argument.ParameterType.Name,
+                            ParameterName = argument.Name
+                        }
+                ); ;
+                        
+                        
                 }
             }
             return method;

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AbstractKlasa.cs" />
     <Compile Include="Converters\CodeToObjectConverter.cs" />
+    <Compile Include="Converters\ObjectToPlantUMLConverter.cs" />
     <Compile Include="InterfaceKlasa.cs" />
     <Compile Include="Klasa2.cs" />
     <Compile Include="Klasa3.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Models\ConnectionUML.cs" />
     <Compile Include="Models\MethodUML.cs" />
     <Compile Include="Models\ClassNameUML.cs" />
+    <Compile Include="Models\ParameterUML.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
