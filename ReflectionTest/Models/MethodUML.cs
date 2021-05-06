@@ -5,7 +5,6 @@ namespace ReflectionTest.Models
     public class MethodUML
     {
         public string MethodName { get; set; }
-        public string Visibility { get; set; }
         public string ReturnType { get; set; }
         public List<ParameterUML> Parameters { get; set; } = new List<ParameterUML>();
 

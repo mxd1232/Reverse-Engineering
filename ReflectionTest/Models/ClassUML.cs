@@ -12,7 +12,6 @@ namespace ReflectionTest.Models
         public ClassNameUML ClassName { get; set; }
         public List<FieldUML> Fields { get; set; }
         public List<MethodUML> Methods { get; set; }
-        public AccesibilityUML FullAccesibility { get; set; }
     }
     
 }

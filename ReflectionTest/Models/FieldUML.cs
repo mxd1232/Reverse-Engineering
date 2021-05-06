@@ -3,7 +3,6 @@
     public class FieldUML
     {
         public string FieldName { get; set; }
-        public string Accesibility { get; set; }
         public string FieldType { get; set; }
 
         //TODO-?   public Accesibilities Accesibility { get; set; }

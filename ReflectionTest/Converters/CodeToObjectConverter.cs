@@ -23,7 +23,7 @@ namespace ReflectionTest.Converters
             }
 
         }
-  
+
         public void CreateClass(Type type)
         {
             ClassUML classUML = null;
@@ -48,7 +48,7 @@ namespace ReflectionTest.Converters
             classUML.Methods = CreateMethods(type);
 
             Objects.Add(classUML);
-           
+
 
         }
         private ClassNameUML CreateClassName(Type type)
@@ -56,7 +56,8 @@ namespace ReflectionTest.Converters
             ClassNameUML classNameUML = new ClassNameUML
             {
                 ClassName = type.Name,
-                ClassType = GetClassType(type)
+                ClassType = GetClassType(type),
+                FullAccesibility = CreateClassAccesibility(type)
             };
             return classNameUML;
         }
@@ -65,7 +66,9 @@ namespace ReflectionTest.Converters
         {
             ClassTypes classType;
 
-            if (type.IsClass == true && type.IsAbstract == false)
+
+
+            if (type.IsClass == true && type.IsAbstract == false || (type.IsSealed == true && type.IsAbstract == true))
             {
                 classType = ClassTypes.Class;
             }
@@ -103,14 +106,53 @@ namespace ReflectionTest.Converters
             FieldUML fieldUML = new FieldUML()
             {
                 FieldName =fieldInfo.Name,
-                //TODO - ACCESIBILITY
+                FullAccesibility = CreateFieldAccesibility(fieldInfo),
                 FieldType = fieldInfo.FieldType.Name
-              //  StartingValue = fieldInfo.GetValue(null).ToString()
               //TODO - starting value?
+              
             };
+
+            
 
             return fieldUML;
            
+        }
+        private AccesibilityUML CreateFieldAccesibility(FieldInfo fieldInfo)
+        {
+            AccesibilityUML accesibility = new AccesibilityUML();
+
+
+            if(fieldInfo.IsPublic)
+            {
+                accesibility.Accesibility = Accesibilities.Public;
+            }
+            else if (fieldInfo.IsPrivate)
+            {
+                accesibility.Accesibility = Accesibilities.Private;
+            }
+            else if(fieldInfo.IsAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.Internal;
+            }        
+            else if (fieldInfo.IsFamily)
+            {
+                accesibility.Accesibility = Accesibilities.Protected;
+            }
+            else if (fieldInfo.IsFamilyOrAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.ProtectedInternal;
+            }
+            else if (fieldInfo.IsFamilyAndAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.PrivateProtected;
+            }
+            if (fieldInfo.IsStatic)
+            {
+                accesibility.Modifier |= Modifiers.Static;
+            }
+
+
+            return accesibility;
         }
         private List<MethodUML> CreateMethods(Type type)
         {
@@ -133,16 +175,17 @@ namespace ReflectionTest.Converters
 
                 methods.Add(CreateMethod(methodInfo));
             }
-
+          
             return methods;
         }
-
+       
         private MethodUML CreateMethod(MethodInfo methodInfo)
         {
             MethodUML method = new MethodUML()
-            {MethodName = methodInfo.Name,
-            //TODO Visibility
-            ReturnType = methodInfo.ReturnType.Name,
+            {
+                MethodName = methodInfo.Name,
+                FullAccesibility = CreateMethodAccesibility(methodInfo),
+                ReturnType = methodInfo.ReturnType.Name,
             
             };
 
@@ -162,6 +205,59 @@ namespace ReflectionTest.Converters
                 }
             }
             return method;
+        }
+        private AccesibilityUML CreateMethodAccesibility(MethodInfo methodInfo)
+        {
+
+            AccesibilityUML accesibility = new AccesibilityUML();
+
+
+            if (methodInfo.IsPublic)
+            {
+                accesibility.Accesibility = Accesibilities.Public;
+            }
+            else if (methodInfo.IsPrivate)
+            {
+                accesibility.Accesibility = Accesibilities.Private;
+            }
+            else if (methodInfo.IsAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.Internal;
+            }
+            else if (methodInfo.IsFamily)
+            {
+                accesibility.Accesibility = Accesibilities.Protected;
+            }
+            else if (methodInfo.IsFamilyOrAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.ProtectedInternal;
+            }
+            else if (methodInfo.IsFamilyAndAssembly)
+            {
+                accesibility.Accesibility = Accesibilities.PrivateProtected;
+            }
+
+            if(methodInfo.IsStatic)
+            {
+                accesibility.Modifier |= Modifiers.Static;
+            }
+            if(methodInfo.IsAbstract)
+            {
+                accesibility.Modifier |= Modifiers.Abstract;
+            }
+
+            
+
+            return accesibility;
+        }
+
+        private AccesibilityUML CreateClassAccesibility(Type type)
+        {
+            //TODO - public,protected,internal
+
+            AccesibilityUML accesibility = new AccesibilityUML();
+
+            return accesibility;
         }
     }
 }

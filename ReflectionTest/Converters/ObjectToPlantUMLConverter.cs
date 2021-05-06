@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReflectionTest.Converters
 {
-    class ObjectToPlantUMLConverter
+    public class ObjectToPlantUMLConverter
     {
         public CodeToObjectConverter CodeToObjectConverter { get; set; }
 
@@ -19,45 +19,51 @@ namespace ReflectionTest.Converters
             code.Append("@startuml\n");
 
 
-            code.Append(CreateClasses());
+            code.Append(ReadClasses());
 
 
             code.Append("@enduml");
 
             return code.ToString();
         }
-        public string CreateClasses()
+        public string ReadClasses()
         {
             StringBuilder code = new StringBuilder();
 
 
-            foreach (var Object in CodeToObjectConverter.Objects)
+            foreach (var classUML in CodeToObjectConverter.Objects)
             {
-                code.Append(ReturnClassType(Object.ClassName.ClassType) + " " + Object.ClassName.ClassName + " {\n");
-
-                //Inside of a class
-                code.Append(ReturnClassInside(Object));
-
-                code.Append("}\n");
+                code.Append(ReadClass(classUML));
             }
 
+            return code.ToString();
+        }
+        public string ReadClass(ClassUML classUML)
+        {
+            StringBuilder code = new StringBuilder();
+ 
+            code.Append(ReadClassAccesibility(classUML.ClassName.FullAccesibility) + ReadClassType(classUML.ClassName.ClassType) + " " + classUML.ClassName.ClassName + " {\n");
+            code.Append(ReadClassInside(classUML));
+            code.Append("}\n");
+           
 
 
             return code.ToString();
         }
-        public string ReturnClassInside(ClassUML classUML)
+
+        public string ReadClassInside(ClassUML classUML)
         {
             StringBuilder code = new StringBuilder();
 
             //TODO - add accesibility
-            code.Append(ReturnFields(classUML));
-            code.Append(ReturnMethods(classUML));
+            code.Append(ReadFields(classUML));
+            code.Append(ReadMethods(classUML));
             
            
             return code.ToString();
         }
 
-        public string ReturnFields(ClassUML classUML)
+        public string ReadFields(ClassUML classUML)
         {
             StringBuilder code = new StringBuilder();
             if(classUML.ClassName.ClassType==ClassTypes.Enum)
@@ -71,25 +77,25 @@ namespace ReflectionTest.Converters
             {
                 foreach (var field in classUML.Fields)
                 {
-                    code.Append(field.FieldType + " " + field.FieldName + "\n");
+                    code.Append(ReadAccesibility(field.FullAccesibility) + field.FieldType + " " + field.FieldName + "\n");
                 }
             }
 
             return code.ToString();
         }
-        public string ReturnMethods(ClassUML classUML)
+        public string ReadMethods(ClassUML classUML)
         {
             StringBuilder code = new StringBuilder();
 
             foreach (var method in classUML.Methods)
             {
-                code.Append(method.ReturnType + " " + method.MethodName + "(" + ReturnMethodArguments(method) + ")" + "\n");
+                code.Append(ReadAccesibility(method.FullAccesibility) + method.ReturnType + " " + method.MethodName + "(" + ReadMethodArguments(method) + ")" + "\n");
             }
 
             return code.ToString();
         }
 
-        public string ReturnMethodArguments(MethodUML method)
+        public string ReadMethodArguments(MethodUML method)
         {
             if (method.Parameters.Count==0)
                 return "";
@@ -109,7 +115,7 @@ namespace ReflectionTest.Converters
 
 
 
-        public string ReturnClassType(ClassTypes classType)
+        public string ReadClassType(ClassTypes classType)
         {
             switch (classType)
             {
@@ -128,6 +134,50 @@ namespace ReflectionTest.Converters
             }
 
         }
+        public string ReadClassAccesibility(AccesibilityUML accesibility)
+        {
+            StringBuilder code = new StringBuilder();
+            
 
+            return code.ToString();
+        }
+
+        public string ReadAccesibility(AccesibilityUML accesibility)
+        {
+            StringBuilder code = new StringBuilder();
+
+            if(accesibility.Modifier == Modifiers.Static)
+            {
+                code.Append("{static} ");
+            }
+            if (accesibility.Modifier == Modifiers.Abstract)
+            {
+
+                code.Append("{abstract} ");
+            }
+
+            if(accesibility.Accesibility == Accesibilities.Private)
+            {
+                code.Append("-");
+            }
+            else if (accesibility.Accesibility == Accesibilities.Protected)
+            {
+                code.Append("#");
+            }
+            else if (accesibility.Accesibility == Accesibilities.Internal)
+            {
+                code.Append("~");
+            }
+            else if (accesibility.Accesibility == Accesibilities.Public)
+            {
+                code.Append("+");
+            }
+
+
+            return code.ToString();
+        }
+
+
+        //TODO RETURN ACCESIBILITY
     }
 }

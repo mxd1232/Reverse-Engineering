@@ -43,12 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractKlasa.cs" />
+    <Compile Include="Tests\AbstractKlasa.cs" />
     <Compile Include="Converters\CodeToObjectConverter.cs" />
     <Compile Include="Converters\ObjectToPlantUMLConverter.cs" />
-    <Compile Include="InterfaceKlasa.cs" />
-    <Compile Include="Klasa2.cs" />
-    <Compile Include="Klasa3.cs" />
+    <Compile Include="Tests\InterfaceKlasa.cs" />
+    <Compile Include="Tests\Klasa2.cs" />
+    <Compile Include="Tests\Klasa3.cs" />
+    <Compile Include="Models\AccesibilityUML.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\FieldUML.cs" />
     <Compile Include="Models\ClassUML.cs" />
@@ -58,6 +59,8 @@
     <Compile Include="Models\ParameterUML.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\OuterClass.cs" />
+    <Compile Include="Tests\StaticClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
