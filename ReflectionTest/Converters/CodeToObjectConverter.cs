@@ -13,7 +13,9 @@ namespace ReflectionTest.Converters
         public List<ClassUML> Objects { get; set; } = new List<ClassUML>();
         public List<ConnectionUML> Connections { get; set; } = new List<ConnectionUML>();
 
-        public void CreateClasses(List<Type> typeList)
+
+
+        public void CreateStructure(List<Type> typeList)
         {
             Objects = new List<ClassUML>();
 
@@ -21,6 +23,48 @@ namespace ReflectionTest.Converters
             {
                 CreateClass(type);
             }
+
+            CreateConnections();
+        }
+        public void CreateConnections()
+        {
+            CreateInheritance();
+        }
+        public void CreateInheritance()
+        {
+            foreach (var obj in Objects)
+            {
+                if(obj.ClassName.BaseType!=null)
+                {
+                   Connections.Add(
+                   new ConnectionUML()
+                   {
+                       Class = obj.ClassName.ClassName,
+                       ConnectedClass = obj.ClassName.BaseType,
+                       ConnectionType = ConnectionTypes.Inheritance
+                   }
+                   );
+                }
+
+                foreach (var interf in obj.ClassName.Interfaces)
+                {
+                    if (Objects.Exists(x => x.ClassName.ClassName == interf))
+                    {
+                        Connections.Add(
+                        new ConnectionUML()
+                        {
+                            Class = obj.ClassName.ClassName,
+                            ConnectedClass = interf,
+                            ConnectionType = ConnectionTypes.Inheritance
+                        });
+
+                    }
+                }
+            }
+
+
+
+
 
         }
 
@@ -49,6 +93,9 @@ namespace ReflectionTest.Converters
 
             Objects.Add(classUML);
 
+            
+            //TODO -ADD CONNECTIONS
+
 
         }
         private ClassNameUML CreateClassName(Type type)
@@ -57,8 +104,23 @@ namespace ReflectionTest.Converters
             {
                 ClassName = type.Name,
                 ClassType = GetClassType(type),
-                FullAccesibility = CreateClassAccesibility(type)
+                FullAccesibility = CreateClassAccesibility(type),            
             };
+
+            if (type.BaseType != null  )
+            {
+                if(type.BaseType.Name != "Object" && type.BaseType.Name != "Enum")
+                {
+                    classNameUML.BaseType = type.BaseType.Name;
+                }
+                
+            }
+            foreach (var item in type.GetInterfaces())
+            {
+                classNameUML.Interfaces.Add(item.Name);
+            }
+            
+
             return classNameUML;
         }
 
@@ -96,7 +158,12 @@ namespace ReflectionTest.Converters
 
             foreach (var fieldInfo in type.GetFields())
             {
-                fields.Add(CreateField(fieldInfo));
+                if (fieldInfo.Name == "value__")
+                {
+                    continue;
+                }
+                    fields.Add(CreateField(fieldInfo));
+                
             }
 
             return fields;

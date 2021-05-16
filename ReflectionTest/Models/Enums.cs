@@ -23,8 +23,14 @@ namespace ReflectionTest.Models
         ProtectedInternal,
         PrivateProtected
     }
-   
-    //NOT TO IMPLEMENT RIGHT NOW
+    public enum ConnectionTypes
+    {
+        Association,
+        Aggregation,
+        Composition,
+        Inheritance,
+        Realization
+    }
     [Flags]
     public enum Modifiers
     {

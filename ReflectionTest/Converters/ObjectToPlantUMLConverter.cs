@@ -21,10 +21,54 @@ namespace ReflectionTest.Converters
 
             code.Append(ReadClasses());
 
+            code.Append(ReadConnections());
+
 
             code.Append("@enduml");
 
             return code.ToString();
+        }
+        public string ReadConnections()
+        {
+
+            StringBuilder code = new StringBuilder();
+
+
+            foreach (var connection in CodeToObjectConverter.Connections)
+            {
+                code.Append(ReadConnection(connection));
+                code.Append("\n");
+            }
+
+            return code.ToString();
+        }
+        public string ReadConnection(ConnectionUML connection)
+        {
+            StringBuilder code = new StringBuilder();
+
+            code.Append(connection.ConnectedClass + " " + GetConnectionTypeString(connection.ConnectionType) + " " + connection.Class);
+
+            return code.ToString();
+        }
+        public string GetConnectionTypeString(ConnectionTypes connectionType)
+        {
+            switch (connectionType)
+            {
+                case ConnectionTypes.Aggregation:
+                    return "o--";
+                case ConnectionTypes.Association:
+                    return "--";
+                case ConnectionTypes.Composition:
+                    return "*--";
+                case ConnectionTypes.Inheritance:
+                    return "<|--";
+                case ConnectionTypes.Realization:
+                    return "<|..";
+                default:
+                    throw new Exception();
+
+
+            }
         }
         public string ReadClasses()
         {
@@ -55,7 +99,7 @@ namespace ReflectionTest.Converters
         {
             StringBuilder code = new StringBuilder();
 
-            //TODO - add accesibility
+            //TODO - add accesibility for a class
             code.Append(ReadFields(classUML));
             code.Append(ReadMethods(classUML));
             
@@ -178,6 +222,5 @@ namespace ReflectionTest.Converters
         }
 
 
-        //TODO RETURN ACCESIBILITY
     }
 }

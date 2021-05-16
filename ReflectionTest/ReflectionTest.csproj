@@ -46,6 +46,8 @@
     <Compile Include="Tests\AbstractKlasa.cs" />
     <Compile Include="Converters\CodeToObjectConverter.cs" />
     <Compile Include="Converters\ObjectToPlantUMLConverter.cs" />
+    <Compile Include="Tests\Inheritance.cs" />
+    <Compile Include="Tests\Inheritance2.cs" />
     <Compile Include="Tests\InterfaceKlasa.cs" />
     <Compile Include="Tests\Klasa2.cs" />
     <Compile Include="Tests\Klasa3.cs" />

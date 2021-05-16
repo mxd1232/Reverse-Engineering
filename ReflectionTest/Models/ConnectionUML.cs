@@ -8,6 +8,8 @@ namespace ReflectionTest.Models
 {
     public class ConnectionUML
     {
-        //TODO
+        public string Class { get; set; }
+        public string ConnectedClass { get; set; }
+        public ConnectionTypes ConnectionType { get; set; }
     }
 } 

@@ -10,9 +10,5 @@ namespace ReflectionTest.Models
 
         public AccesibilityUML FullAccesibility { get; set; }
 
-
-        //TODO-?   public Accesibilities Accesibility { get; set; }
-        //TODO-?  public DataTypes DataType { get; set; }
-
     }
 }
