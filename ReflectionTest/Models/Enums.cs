@@ -25,11 +25,13 @@ namespace ReflectionTest.Models
     }
     public enum ConnectionTypes
     {
-        Association,
-        Aggregation,
-        Composition,
         Inheritance,
-        Realization
+        Implementation,
+
+        Association,
+        Dependency,
+        Aggregation,
+        Composition
     }
     [Flags]
     public enum Modifiers

@@ -43,9 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ConnectionComparer.cs" />
     <Compile Include="Tests\AbstractKlasa.cs" />
     <Compile Include="Converters\CodeToObjectConverter.cs" />
     <Compile Include="Converters\ObjectToPlantUMLConverter.cs" />
+    <Compile Include="Tests\DoubleAsociation1.cs" />
+    <Compile Include="Tests\DoubleAsociation2.cs" />
     <Compile Include="Tests\Inheritance.cs" />
     <Compile Include="Tests\Inheritance2.cs" />
     <Compile Include="Tests\InterfaceKlasa.cs" />

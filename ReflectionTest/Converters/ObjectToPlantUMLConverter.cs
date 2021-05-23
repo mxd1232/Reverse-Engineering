@@ -54,16 +54,18 @@ namespace ReflectionTest.Converters
         {
             switch (connectionType)
             {
-                case ConnectionTypes.Aggregation:
-                    return "o--";
-                case ConnectionTypes.Association:
-                    return "--";
-                case ConnectionTypes.Composition:
-                    return "*--";
                 case ConnectionTypes.Inheritance:
                     return "<|--";
-                case ConnectionTypes.Realization:
-                    return "<|..";
+                case ConnectionTypes.Implementation:
+                    return "<|..";            
+                case ConnectionTypes.Dependency:
+                    return "<..";
+                case ConnectionTypes.Association:
+                    return "<--";
+                case ConnectionTypes.Aggregation:
+                    return "o--";
+                case ConnectionTypes.Composition:
+                    return "*--";             
                 default:
                     throw new Exception();
 
@@ -182,6 +184,7 @@ namespace ReflectionTest.Converters
         {
             StringBuilder code = new StringBuilder();
             
+            //TODO
 
             return code.ToString();
         }

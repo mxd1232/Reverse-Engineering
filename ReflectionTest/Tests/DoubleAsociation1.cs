@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ReflectionTest.Tests
 {
-    class Inheritance : Klasa2
+    class DoubleAsociation1
     {
-        public void Method()
-        {
-
-        }
+        public DoubleAsociation2 asociation2;
     }
 }
