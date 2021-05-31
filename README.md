@@ -68,3 +68,20 @@ podgląd atrybutów w trakcie wykonywania programu;
 sprawdzenie różnych typów danych w danej bibliotece oraz utworzenie ich instancji;
 wykonanie późnego wiązania do metod i właściwości (późne wiązanie oznacza, że np. docelowa metoda jest poszukiwana w trakcie wykonywania programu. Wiązanie takie ma zwykle wpływ na wydajność. Poszukiwanie takie wymaga dopasowania w trakcie wykonywania programu, oznacza to, że wywołania metod są wolniejsze. Przeciwieństwem jest wczesne wiązanie, tj. docelowa metoda jest znana już w trakcie kompilacji kodu);
 tworzenie nowych typów w trakcie wykonywania programu a następnie wykonywanie różnych zadań przy użyciu tych typów.
+
+
+
+*** STRUKTURA PROGRAMU
+Struktura Models zawiera informacje o wszystkich elementach które będą wykorzystane do rysowania diagramów UML
+
+W Enums.cs znajdują się Enumeratory 
+
+
+ConnectionComparer - rozszerza HashMap do porównywania elementów ConnectionUML.
+
+CodeToObjectConverter - przy pomocy refleksji zamienia kod źródłowy programu do struktury ClassUML oraz wpołączeń - ConnectionUML.
+
+ObjectToPlantUMLConverter - dokonuje konwersji i parsowania struktur znajdujących się w Models do formy ciągu znaków.
+
+Program - tworzy liste wszystkich namespace w programie  na tej podstawie wywołuje dalsze działanie programu
+
