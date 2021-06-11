@@ -8,6 +8,9 @@ namespace ReflectionTest
 {
     public class Klasa2
     {
+        public List<List<List<Klasa3>>> klassss;
+        private Klasa2 klasa2;
+        private Klasa3 klasa3;
         private string Word = "Slowo";
         protected int Number;
         public bool Condition;

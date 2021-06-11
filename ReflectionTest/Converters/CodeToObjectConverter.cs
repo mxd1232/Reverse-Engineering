@@ -31,8 +31,8 @@ namespace ReflectionTest.Converters
             CreateInheritance();
             CreateDependencies();
             CreateAssociations();
-          //  CreateAggregations();
-          //  CreateCompositions();
+            CreateAggregations();
+            CreateCompositions();
         }
         public void CreateInheritance()
         {
@@ -71,7 +71,6 @@ namespace ReflectionTest.Converters
 
             foreach (var obj in Objects)
             {
-
                 foreach (var method in obj.Methods)
                 {
                     if (Objects.Exists(x => x.ClassName.ClassName == method.ReturnType))
@@ -83,7 +82,18 @@ namespace ReflectionTest.Converters
                             ConnectedClass = method.ReturnType,
                             ConnectionType = ConnectionTypes.Dependency
                         });
-                    }
+                    }                                  
+                }
+            }
+        }
+        public void CreateAssociations()
+        {
+            //TODO - double Associations
+            foreach (var obj in Objects)
+            {
+
+                foreach (var method in obj.Methods)
+                {
                     foreach (var methodParameter in method.Parameters)
                     {
                         if (Objects.Exists(x => x.ClassName.ClassName == methodParameter.ParameterType))
@@ -93,26 +103,29 @@ namespace ReflectionTest.Converters
                             {
                                 Class = obj.ClassName.ClassName,
                                 ConnectedClass = methodParameter.ParameterType,
-                                ConnectionType = ConnectionTypes.Dependency
+                                ConnectionType = ConnectionTypes.Association
                             });
                         }
                     }
-                    
+
                 }
             }
-        }
-        public void CreateAssociations()
-        {
-            //TODO - double Associations
 
+        }
+        public void CreateAggregations()
+        {
             foreach (var obj in Objects)
             {
-                if(obj.ClassName.ClassType==ClassTypes.Enum)
+                if (obj.ClassName.ClassType == ClassTypes.Enum)
                 {
                     continue;
                 }
                 foreach (var field in obj.Fields)
                 {
+                    if(field.FullAccesibility.Accesibility==Accesibilities.Private)
+                    {
+                        continue;
+                    }
                     if (Objects.Exists(x => x.ClassName.ClassName == field.FieldType))
                     {
                         Connections.Add(
@@ -120,21 +133,39 @@ namespace ReflectionTest.Converters
                         {
                             Class = obj.ClassName.ClassName,
                             ConnectedClass = field.FieldType,
-                            ConnectionType = ConnectionTypes.Association
+                            ConnectionType = ConnectionTypes.Aggregation
                         });
                     }
                 }
             }
         }
-        public void CreateAggregations()
-        {
-            throw new NotImplementedException();
-        }
         public void CreateCompositions()
         {
-            throw new NotImplementedException();
+            foreach (var obj in Objects)
+            {
+                if (obj.ClassName.ClassType == ClassTypes.Enum)
+                {
+                    continue;
+                }
+                foreach (var field in obj.Fields)
+                {
+                    if (field.FullAccesibility.Accesibility != Accesibilities.Private)
+                    {
+                        continue;
+                    }
+                    if (Objects.Exists(x => x.ClassName.ClassName == field.FieldType))
+                    {
+                        Connections.Add(
+                        new ConnectionUML()
+                        {
+                            Class = obj.ClassName.ClassName,
+                            ConnectedClass = field.FieldType,
+                            ConnectionType = ConnectionTypes.Composition
+                        });
+                    }
+                }
+            }
         }
-      
 
         public void CreateClass(Type type)
         {
@@ -272,9 +303,9 @@ namespace ReflectionTest.Converters
         {
             List<FieldUML> fields = new List<FieldUML>();
 
-            foreach (var fieldInfo in type.GetFields())
+            foreach (var fieldInfo in type.GetRuntimeFields())
             {
-                if (fieldInfo.Name == "value__")
+                if (fieldInfo.Name == "value__" || fieldInfo.Name.StartsWith("<"))
                 {
                     continue;
                 }
@@ -286,6 +317,8 @@ namespace ReflectionTest.Converters
         }
         private FieldUML CreateField(FieldInfo fieldInfo)
         {
+
+
             FieldUML fieldUML = new FieldUML()
             {
                 FieldName =fieldInfo.Name,
