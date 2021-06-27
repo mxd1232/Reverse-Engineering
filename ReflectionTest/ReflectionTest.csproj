@@ -62,7 +62,7 @@
     <Compile Include="Models\MethodUML.cs" />
     <Compile Include="Models\ClassNameUML.cs" />
     <Compile Include="Models\ParameterUML.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Converters\PlantUMLGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\OuterClass.cs" />
     <Compile Include="Tests\StaticClass.cs" />
@@ -71,6 +71,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Classes\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

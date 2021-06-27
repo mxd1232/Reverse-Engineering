@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReflectionTest
+namespace ReflectionTest.Tests
 {
     public class Klasa3:InterfaceKlasa
     {

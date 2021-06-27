@@ -1,5 +1,6 @@
 ﻿using ReflectionTest.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +35,27 @@ namespace ReflectionTest.Converters
             CreateAggregations();
             CreateCompositions();
         }
+        public bool IsObjectExisting(string objectName)
+        {
+            objectName = TrimCollectionString(objectName);
+
+            if(Objects.Exists(x => x.ClassName.ClassName == objectName))
+            {
+                return true;
+            }       
+            return false;
+        }
+        private string TrimCollectionString(string objectName)
+        {
+            if (objectName.StartsWith("Collection<") && objectName.EndsWith(">"))
+            {
+                objectName = objectName.Remove(0, 11);
+                objectName = objectName.Remove(objectName.Length - 1, 1);
+
+            }
+            return objectName;
+        }
+
         public void CreateInheritance()
         {
             foreach (var obj in Objects)
@@ -51,13 +73,13 @@ namespace ReflectionTest.Converters
                 }
                 foreach (var interf in obj.ClassName.Interfaces)
                 {
-                    if (Objects.Exists(x => x.ClassName.ClassName == interf))
-                    {
+                    if (IsObjectExisting(interf))
+                    {            
                         Connections.Add(
                         new ConnectionUML()
                         {
                             Class = obj.ClassName.ClassName,
-                            ConnectedClass = interf,
+                            ConnectedClass = TrimCollectionString(interf),
                             ConnectionType = ConnectionTypes.Implementation
                         });
 
@@ -73,13 +95,13 @@ namespace ReflectionTest.Converters
             {
                 foreach (var method in obj.Methods)
                 {
-                    if (Objects.Exists(x => x.ClassName.ClassName == method.ReturnType))
+                    if (IsObjectExisting(method.ReturnType))
                     {
                         Connections.Add(
                         new ConnectionUML()
                         {
                             Class = obj.ClassName.ClassName,
-                            ConnectedClass = method.ReturnType,
+                            ConnectedClass = TrimCollectionString(method.ReturnType),
                             ConnectionType = ConnectionTypes.Dependency
                         });
                     }                                  
@@ -96,13 +118,15 @@ namespace ReflectionTest.Converters
                 {
                     foreach (var methodParameter in method.Parameters)
                     {
-                        if (Objects.Exists(x => x.ClassName.ClassName == methodParameter.ParameterType))
+
+
+                        if (IsObjectExisting(methodParameter.ParameterType))
                         {
                             Connections.Add(
                             new ConnectionUML()
                             {
                                 Class = obj.ClassName.ClassName,
-                                ConnectedClass = methodParameter.ParameterType,
+                                ConnectedClass = TrimCollectionString(methodParameter.ParameterType),
                                 ConnectionType = ConnectionTypes.Association
                             });
                         }
@@ -126,13 +150,13 @@ namespace ReflectionTest.Converters
                     {
                         continue;
                     }
-                    if (Objects.Exists(x => x.ClassName.ClassName == field.FieldType))
+                    if (IsObjectExisting(field.FieldType))
                     {
                         Connections.Add(
                         new ConnectionUML()
                         {
                             Class = obj.ClassName.ClassName,
-                            ConnectedClass = field.FieldType,
+                            ConnectedClass = TrimCollectionString(field.FieldType),
                             ConnectionType = ConnectionTypes.Aggregation
                         });
                     }
@@ -153,13 +177,13 @@ namespace ReflectionTest.Converters
                     {
                         continue;
                     }
-                    if (Objects.Exists(x => x.ClassName.ClassName == field.FieldType))
+                    if (IsObjectExisting(field.FieldType))
                     {
                         Connections.Add(
                         new ConnectionUML()
                         {
                             Class = obj.ClassName.ClassName,
-                            ConnectedClass = field.FieldType,
+                            ConnectedClass = TrimCollectionString(field.FieldType),
                             ConnectionType = ConnectionTypes.Composition
                         });
                     }
@@ -205,13 +229,14 @@ namespace ReflectionTest.Converters
             {
                 string methodName = method.MethodName;
 
-                if ( methodName.StartsWith("get_"))
+                if ( methodName.StartsWith("get_") || methodName.StartsWith("set_"))
                 {
                     string propertyName = methodName.Substring(4);
 
                     if(classUML.Fields.Exists(x => x.FieldName == propertyName)==false)
                     {
-                        classUML.Fields.Add(new FieldUML()
+
+                        FieldUML fieldUML = new FieldUML()
                         {
                             FieldName = propertyName,
                             FieldType = method.ReturnType, 
@@ -220,30 +245,13 @@ namespace ReflectionTest.Converters
                                 Accesibility = Accesibilities.None,
                                 Modifier = Modifiers.None
                             })
-                        });
-                    }
-                }
-                if (methodName.StartsWith("set_"))
-                {
-                    string propertyName = methodName.Substring(4);
+                        };
 
-                    if (classUML.Fields.Exists(x => x.FieldName == propertyName) == false)
-                    {
-                        classUML.Fields.Add(new FieldUML()
-                        {
-                            FieldName = propertyName,
-                            FieldType = method.Parameters[0].ParameterType,
-                            FullAccesibility = (new AccesibilityUML()
-                            {
-                                Accesibility = Accesibilities.None,
-                                Modifier = Modifiers.None
-                            })
-                        });
+                        classUML.Fields.Add(fieldUML);
                     }
                 }
+              
             }
-
-
         }
         private ClassNameUML CreateClassName(Type type)
         {
@@ -324,11 +332,15 @@ namespace ReflectionTest.Converters
                 FieldName =fieldInfo.Name,
                 FullAccesibility = CreateFieldAccesibility(fieldInfo),
                 FieldType = fieldInfo.FieldType.Name
-              //TODO - starting value?
+              
               
             };
+            if (IsGeneric(fieldInfo.FieldType))
+            {
+                fieldUML.FieldType = GetGenericTypeName(fieldInfo.FieldType);
+            }
 
-            
+
 
             return fieldUML;
            
@@ -402,25 +414,49 @@ namespace ReflectionTest.Converters
                 MethodName = methodInfo.Name,
                 FullAccesibility = CreateMethodAccesibility(methodInfo),
                 ReturnType = methodInfo.ReturnType.Name,
-            
+
             };
+
+            if (IsGeneric(methodInfo.ReturnType))
+            {
+                method.ReturnType = GetGenericTypeName(methodInfo.ReturnType);
+            }         
 
             if (methodInfo != null && methodInfo.GetParameters().Length > 0)
             {
                 foreach (var argument in methodInfo.GetParameters())
                 {
-                    method.Parameters.Add(
-                        new ParameterUML()
-                        {
-                            ParameterType = argument.ParameterType.Name,
-                            ParameterName = argument.Name
-                        }
-                ); ;
-                        
-                        
+
+                    
+                    if(IsGeneric(argument.ParameterType))
+                    {
+
+                        var parameterName = GetGenericTypeName(argument.ParameterType);
+
+                        method.Parameters.Add(
+                      new ParameterUML()
+                      {
+                          ParameterType = parameterName,
+                          ParameterName = argument.Name
+                      });
+                    }
+                    else
+                    {
+                        method.Parameters.Add(
+                      new ParameterUML()
+                      {
+                          ParameterType = argument.ParameterType.Name,
+                          ParameterName = argument.Name
+                      });
+                    }
+                                                         
                 }
             }
             return method;
+        }
+        private bool IsGeneric(Type type)
+        {
+            return (type.GetInterface(nameof(IEnumerable)) != null);
         }
         private AccesibilityUML CreateMethodAccesibility(MethodInfo methodInfo)
         {
@@ -474,6 +510,27 @@ namespace ReflectionTest.Converters
             AccesibilityUML accesibility = new AccesibilityUML();
 
             return accesibility;
+        }
+
+        string GetGenericTypeName(Type type)
+        {
+            var typeArguments = type.GetGenericArguments();
+
+            foreach (Type tParam in typeArguments)
+            {
+                // If this is a type parameter, display its
+                // position.
+                //
+                if (tParam.IsGenericParameter)
+                {
+                    return "Collection<"+tParam.Name+">";
+                }
+                else
+                {
+                    return GetGenericTypeName(tParam);
+                }
+            }
+            return "Collection<"+type.Name+">";
         }
     }
 }

@@ -151,9 +151,10 @@ namespace ReflectionTest.Converters
 
             foreach (var argument in method.Parameters)
             {
-                code.Append(argument.ParameterType + " " + argument.ParameterName +" ");
+                code.Append(argument.ParameterType + " " + argument.ParameterName +", ");
+
             }
-            code.Remove(code.Length - 1, 1);
+            code.Remove(code.Length - 2, 2);
 
             return code.ToString();
         }
